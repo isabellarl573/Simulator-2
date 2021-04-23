@@ -1,5 +1,6 @@
 #include <iostream>
 #include <time.h>
+#include <cstdlib>
 
 using namespace std;
 
@@ -70,11 +71,12 @@ int main()
 
     int next_stick;
     int time_to_eat;
-    //time can be changed to shorten or extend the simulation
+    //how many rounds/how much time do we want this to run for?
     while (clock() - start_time < 10000) {
         for (int i = 0; i < members; i++) {
             next_stick = (i + 1 == members) ? 0: i + 1;
 
+            //they are all left handed, so they pick their left chopstick first
             switch (philosphers[i]) {
                 //chance to request to eat
                 case -1:
@@ -125,7 +127,9 @@ int main()
                     } else if (chopsticks[next_stick] == -1) {
                         chopsticks[next_stick] = i;
                         philosphers[i] = time_to_eat;
-                    } else {
+                    }/* random drop strategy - replaced by reseting when in deadllock
+                    else {
+
                         //if gets too bored, drops a chopstick and goes back to thinking
                         if (5 > rand() % 100) {
                             if (chopsticks[i] == i) {
@@ -136,7 +140,7 @@ int main()
                                 philosphers[i] = -1;
                             }
                         } //else stays at 3
-                    }
+                    }*/
                     break;
                 //es hora de comer
                 default:
@@ -151,10 +155,17 @@ int main()
         }
 
         if (state_of_philosophers(philosphers, chopsticks, members) == -1) {
-            cout << "Currently in deadlock state" << endl;
+            cout << "Currently in deadlock state, in some time all chopsticks will be dropped and philosophers will go back to thinking" << endl;
+            while (clock() - start_time < 1000) {
+                //waiting time to reset
+            }
+            for (int i = 0; i < members; i++) {
+                philosphers[i] = -1;
+                chopsticks[i] = -1;
+            }
         }
     }
     cout << "Amount of times went into deadlock state: " << deadlock_amount << endl;
-    
+
     return 0;
 }
