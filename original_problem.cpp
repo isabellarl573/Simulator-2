@@ -70,7 +70,7 @@ int main()
 
     int next_stick;
     int time_to_eat;
-    //how many rounds/how much time do we want this to run for?
+    //time can be changed to shorten or extend the simulation
     while (clock() - start_time < 10000) {
         for (int i = 0; i < members; i++) {
             next_stick = (i + 1 == members) ? 0: i + 1;
