@@ -71,7 +71,7 @@ int main()
 
     int next_stick;
     int time_to_eat;
-    //how many rounds/how much time do we want this to run for?
+    //time can change to extend or shorten the simulation
     while (clock() - start_time < 10000) {
         for (int i = 0; i < members; i++) {
             next_stick = (i + 1 == members) ? 0: i + 1;
@@ -153,7 +153,7 @@ int main()
                     //else stays eating
             }
         }
-
+        // the time for deadlock reset can be changed for a bigger or smaller penalty
         if (state_of_philosophers(philosphers, chopsticks, members) == -1) {
             cout << "Currently in deadlock state, in some time all chopsticks will be dropped and philosophers will go back to thinking" << endl;
             while (clock() - start_time < 1000) {
