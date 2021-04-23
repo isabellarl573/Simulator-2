@@ -4,6 +4,7 @@
 using namespace std;
 
 int start_time = 0;
+int deadlock_amount = 0;
 
 //if in deadlock, returns -1, otherwise, returns 0
 int state_of_philosophers (int philosophers[], int chopsticks[], int members) {
@@ -32,8 +33,10 @@ int state_of_philosophers (int philosophers[], int chopsticks[], int members) {
     cout << "At time: " << (clock() - start_time);
     cout << " Idle/Thinking : " << idle << " Requesting : " << requesting << " Waiting : " << waiting << " Eating : " << eating << endl;
     //deadlock
-    if (waiting == members)
+    if (waiting == members) {
+        deadlock_amount++;
         return -1;
+    }
 
     return 0;
 }
@@ -79,7 +82,7 @@ int main()
                     if (20 > rand() % 100)
                         philosphers[i] = 0;
                     break;
-                //wants to grab a chopstick, if one is available, it is grabbed (if they have both, they start eating)
+                //has zero chopstick, wants to grab a chopstick, if one is available, it is grabbed (needs one)
                 case 0:
                     if (chopsticks[i] == -1) {
                         chopsticks[i] = i;
@@ -91,8 +94,9 @@ int main()
                         philosphers[i] = 2;
                     }
                     break;
+                //has one chopstick, wants to grab a chopstick, if one is available, it is grabbed (if they have both, they start eating)
                 case 1:
-                    time_to_eat = clock() + (rand() % 1000);
+                    time_to_eat = clock() + (rand() % ((i + 1) * 1000));
                     if (chopsticks[i] == -1) {
                         chopsticks[i] = i;
                         philosphers[i] = time_to_eat;
@@ -114,7 +118,7 @@ int main()
 
                 //waiting (one chopstick)- chance to drop the chopstick (if they get bored)
                 case 3:
-                    time_to_eat = clock() + (rand() % 1000);
+                    time_to_eat = clock() + (rand() % ((i + 1) * 1000));
                     if (chopsticks[i] == -1) {
                         chopsticks[i] = i;
                         philosphers[i] = time_to_eat;
@@ -142,7 +146,7 @@ int main()
                         chopsticks[i] = -1;
                         chopsticks[next_stick] = -1;
                     }
-
+                    //else stays eating
             }
         }
 
@@ -150,5 +154,7 @@ int main()
             cout << "Currently in deadlock state" << endl;
         }
     }
+    cout << "Amount of times went into deadlock state: " << deadlock_amount << endl;
+    
     return 0;
 }
