@@ -7,8 +7,11 @@ int state_of_philosophers (int[] philosophers, int[] chopsticks, int members) {
     int idle = 0;
     int requesting = 0;
     int waiting = 0;
+    int eating = 0;
 
-
+    //deadlock
+    if (waiting == members)
+        return -1;
 
     return 0;
 }
@@ -20,10 +23,12 @@ int main()
     //
     int members = 5;//5 + (rand() % 5) ;
     //each index is an individual philosopher, the value is the state of the philosopher:
-    // - 0: is idle/thinking,
-    // - 1: is requesting to eat,
-    // - 2: is waiting to eat when not enough chopsticks are available,
-    // - any num > 2: is eating/the time needed to eat
+    // - -1: is idle/thinking,
+    // - 0: is requesting to eat, has zero chopsticks
+    // - 1: is requesting to eat, has one chopstick
+    // - 2: is waiting to eat, has zero chopsticks (when not enough chopsticks are available)
+    // - 3: is waiting to eat, has one chopstick (when not enough chopsticks are available)
+    // - any num > 3: is eating/the time needed to eat
     int philosphers[members];
     //each index is the corresponding chopstick in reference to the table and philosophers
     // for nth philosopher, their corresponding chopstick are n and n+1
@@ -37,24 +42,94 @@ int main()
         philosphers[i] = 0;
         chopsticks[i] = -1;
     }
-
+    
+    int next_stick;
+    int time_to_eat;
     //how many rounds/how much time do we want this to run for?
     while (clock() - start_time < 100000) {
+        if (state_of_philosophers == -1) {
+            cout << "Currently in deadlock state" << endl;
+        }
         for (int i = 0; i < members; i++) {
+            next_stick = (i + 1 == members) ? 0: i + 1;
+        
             switch (philosphers[i]) {
+                //chance to request to eat
+                case -1:
+                    //if probability is met, they request to eat
+                    if (20 > rand() % 100)
+                        philosphers[i] = 0;
+                    break;
+                //wants to grab a chopstick, if one is available, it is grabbed (if they have both, they start eating)
                 case 0:
+                    if (chopsticks[i] == -1) {
+                        chopsticks[i] = i;
+                        philosphers[i] = 1;
+                    } else if (chopsticks[next_stick] == -1) {
+                        chopsticks[next_stick] = i;
+                        philosphers[i] = 1;
+                    } else {
+                        philosphers[i] = 2;
+                    }
                     break;
                 case 1:
+                    time_to_eat = clock() + (rand() % 1000);
+                    if (chopsticks[i] == -1) {
+                        chopsticks[i] = i;
+                        philosphers[i] = time_to_eat;
+                    } else if (chopsticks[next_stick] == -1) {
+                        chopsticks[next_stick] = i;
+                        philosphers[i] = time_to_eat;
+                    } else {
+                        philosphers[i] = 3;
+                    }
+                //waiting - zero chopsticks
+                case 2: 
+                    if (chopsticks[i] == -1) {
+                        chopsticks[i] = i;
+                        philosphers[i] = 1;
+                    } else if (chopsticks[next_stick] == -1) {
+                        chopsticks[next_stick] = i;
+                        philosphers[i] = 1;
+                    } // else, stays at 2
+                    
+                //waiting (one chopstick)- chance to drop the chopstick (if they get bored)
+                case 3:
+                    time_to_eat = clock() + (rand() % 1000);
+                    if (chopsticks[i] == -1) {
+                        chopsticks[i] = i;
+                        philosphers[i] = time_to_eat;
+                    } else if (chopsticks[next_stick] == -1) {
+                        chopsticks[next_stick] = i;
+                        philosphers[i] = time_to_eat;
+                    } else {
+                        //if gets too bored, drops a chopstick and goes back to thinking
+                        if (5 > rand() % 100) {
+                            if (chopsticks[i] == i) {
+                                chopsticks[i] = -1;
+                                philosphers = -1;
+                            } else if (chopsticks[next_stick] == i) {
+                                chopsticks[next_stick] = -1;
+                                philosphers = -1;
+                            }
+                        } //else stays at 3
+                    }
                     break;
-                case 2:
-                    break;
-                default:
+                //es hora de comer
+                default: 
+                    //done eating
+                    if (philosphers[i] < clock()) {
+                        philosphers[i] = -1;
+                        chopsticks[i] = -1;
+                        chopsticks[next_stick] = -1;
+                    }
 
             }
         }
-
+        
+        if (state_of_philosophers == -1) {
+            cout << "Currently in deadlock state" << endl;
+        }
     }
-
-    cout << "Hello world!" << endl;
     return 0;
 }
