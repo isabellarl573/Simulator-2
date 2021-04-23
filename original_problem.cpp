@@ -1,14 +1,36 @@
 #include <iostream>
+#include <time.h>
 
 using namespace std;
 
+int start_time = 0;
+
 //if in deadlock, returns -1, otherwise, returns 0
-int state_of_philosophers (int[] philosophers, int[] chopsticks, int members) {
+int state_of_philosophers (int philosophers[], int chopsticks[], int members) {
     int idle = 0;
     int requesting = 0;
     int waiting = 0;
     int eating = 0;
 
+    for (int i = 0; i < members; i++) {
+        switch(philosophers[i]) {
+            case -1:
+                idle++;
+                break;
+            case 0:
+            case 1:
+                requesting++;
+                break;
+            case 2:
+            case 3:
+                waiting++;
+                break;
+            default:
+                eating++;
+        }
+    }
+    cout << "At time: " + (clock() - start_time);
+    cout << " Idle/Thinking : " << idle << " Requesting : " << requesting << " Waiting : " << waiting << " Eating : " << eating << endl;
     //deadlock
     if (waiting == members)
         return -1;
@@ -19,7 +41,7 @@ int state_of_philosophers (int[] philosophers, int[] chopsticks, int members) {
 int main()
 {
     srand (time(NULL));
-    int start_time = clock();
+    start_time = clock();
     //
     int members = 5;//5 + (rand() % 5) ;
     //each index is an individual philosopher, the value is the state of the philosopher:
@@ -42,17 +64,14 @@ int main()
         philosphers[i] = 0;
         chopsticks[i] = -1;
     }
-    
+
     int next_stick;
     int time_to_eat;
     //how many rounds/how much time do we want this to run for?
-    while (clock() - start_time < 100000) {
-        if (state_of_philosophers == -1) {
-            cout << "Currently in deadlock state" << endl;
-        }
+    while (clock() - start_time < 10000) {
         for (int i = 0; i < members; i++) {
             next_stick = (i + 1 == members) ? 0: i + 1;
-        
+
             switch (philosphers[i]) {
                 //chance to request to eat
                 case -1:
@@ -84,7 +103,7 @@ int main()
                         philosphers[i] = 3;
                     }
                 //waiting - zero chopsticks
-                case 2: 
+                case 2:
                     if (chopsticks[i] == -1) {
                         chopsticks[i] = i;
                         philosphers[i] = 1;
@@ -92,7 +111,7 @@ int main()
                         chopsticks[next_stick] = i;
                         philosphers[i] = 1;
                     } // else, stays at 2
-                    
+
                 //waiting (one chopstick)- chance to drop the chopstick (if they get bored)
                 case 3:
                     time_to_eat = clock() + (rand() % 1000);
@@ -107,16 +126,16 @@ int main()
                         if (5 > rand() % 100) {
                             if (chopsticks[i] == i) {
                                 chopsticks[i] = -1;
-                                philosphers = -1;
+                                philosphers[i] = -1;
                             } else if (chopsticks[next_stick] == i) {
                                 chopsticks[next_stick] = -1;
-                                philosphers = -1;
+                                philosphers[i] = -1;
                             }
                         } //else stays at 3
                     }
                     break;
                 //es hora de comer
-                default: 
+                default:
                     //done eating
                     if (philosphers[i] < clock()) {
                         philosphers[i] = -1;
@@ -126,8 +145,8 @@ int main()
 
             }
         }
-        
-        if (state_of_philosophers == -1) {
+
+        if (state_of_philosophers(philosphers, chopsticks, members) == -1) {
             cout << "Currently in deadlock state" << endl;
         }
     }
