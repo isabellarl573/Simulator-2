@@ -29,7 +29,7 @@ int state_of_philosophers (int philosophers[], int chopsticks[], int members) {
                 eating++;
         }
     }
-    cout << "At time: " + (clock() - start_time);
+    cout << "At time: " << (clock() - start_time);
     cout << " Idle/Thinking : " << idle << " Requesting : " << requesting << " Waiting : " << waiting << " Eating : " << eating << endl;
     //deadlock
     if (waiting == members)
