@@ -4,6 +4,6 @@ Team Members
 
 - Isabella Robert Llorens
 - Cade Lueker
--
+- Shuyun Wei
 -
 
