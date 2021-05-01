@@ -15,7 +15,7 @@ Team Members
 - Cade Lueker 
 
 ### Description
-- This project shows a simulation on the Dining Philosophers problem where a random drop strategy is implemented against a delayed recovery from a deadlock. ??
+- This project shows a simulation on the Dining Philosophers problem where a random drop strategy is implemented against a delayed recovery from a deadlock.
 - In the philosopher array (5 members), each index is an individual philosopher, the value is the state of the philosopher: -1 is idle/thinking; 0 is requesting to eat, has zero chopsticks; 1 is requesting to eat, has one chopstick; 2 is waiting to eat, has zero chopsticks (when not enough chopsticks are available); 3 is waiting to eat, has one chopstick (when not enough chopsticks are available); any number > 3 is eating/the time needed to eat
 - In the chopsticks array, each index is the corresponding chopstick in reference to the table and philosophers, for nth philosopher, their corresponding chopsticks are n and n+1, except the last one, whose corresponding chopsticks are the last index and the first. The values correspond to the state of the chopstick: -1 if the chopstick is available/on the table; any positive number is the index of the philosopher who has it
 - Once they are in state to requesting to eat, they will try to get the required chopsticks, only one per turn
