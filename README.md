@@ -35,7 +35,8 @@ Team Members
   - This can be improved upon with the variation with the extra chopstick between philosopher 1 and 5, since 5 has the highest probability of having a longer eating time, and taking up 1’s chopstick, the extra chopstick between them will not lead to 5’s “longer” eating time to not affect 1’s chances at obtaining the required chopsticks
 
 #### Expectations from design: 
-- extra chopstick will have less deadlocks
+
+- I expect that the simulation with an extra chopstick will have fewer deadlocks as there are more resources to go around. This would make sense in terms of computer program resource allocation aswell. If you have a computer with more ram you will get fewer freezes crashes. 
 
 ### the summary of results after running the simulation/Analysis
 - A deadlock in the graph can be observed when all the “philosophers” (program) needs a “chopstick” (resource) but there isn’t one available, and they are all left waiting for a chopstick to be available. This means that their request has to be ignored and the program can not continue running unless there is a way to resolve that deadlock.
