@@ -51,8 +51,8 @@ Team Members
 | Graphs                                                                                                                                                              |
 |---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | **Baseline experiment**                                                                                                                                             |
-| ![graph1](graph1.png)                                                                                                                                               |
+| ![graph1](~/Desktop/Simulator-2/graph1.png)                                                                                                                                               |
 | Much less stable. Varying number of philosophers waiting. Multiple initial deadlocks                                                                                |
 | **Extra chopstick**                                                                                                                                                 |
-| ![graph2](graph2.png)                                                                                                                                               |
+| ![graph2](~/Desktop/Simulator-2/graph2.png)                                                                                                                                               |
 | Many initial deadlocks. Higher “resting” number of waiting philosophers. Much more stable and consistent. Every time a request is made it is addressed immediately  |
