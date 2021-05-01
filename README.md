@@ -38,13 +38,11 @@ Team Members
 - extra chopstick will have less deadlocks
 
 ### the summary of results after running the simulation/Analysis
-- Why do/did deadlocks happen
-- A deadlock in the graph can be observed when a “philosopher” (program) needs a “chopstick” (resource) but there isn’t one available. This means that their request has to be momentarily ignored.  
-- What can be done to resolve them?
-- There are two methods to reduce these chopstick deadlocks if you will. You can 
-- Add more resources and create a surplus of “chopsticks”
-- Or you can improve the algorithm that decides who gets a chopstick and when they receive it. 
-- Analysis of chart
+- A deadlock in the graph can be observed when all the “philosophers” (program) needs a “chopstick” (resource) but there isn’t one available, and they are all left waiting for a chopstick to be available. This means that their request has to be ignored and the program can not continue running unless there is a way to resolve that deadlock.
+- Since the table is reset once a deadlock is reached, there are spikes downward from the waiting and requsting states, and all return to an idle state.
+- There are two methods to reduce these chopstick deadlocks if you will. You can:
+  - Add more resources and create a surplus of “chopsticks”
+  - Or you can improve the algorithm that decides who gets a chopstick and when they receive it. 
 - As we can see with the original graph versus the extra chopstick graph there is still a deadlock towards the beginning of the simulation but there is only one versus - several in the original graph.
 - What is also interesting is the fact that in the extra chopstick simulation there are fewer people eating at one time but there are also fewer ups and downs in terms of people waiting. It seems that although there are more people (in an actual operating system this would be programs) there are enough chopsticks for them to “eat” whenever they request which we can see as the waiting dips as soon as a request is made. 
 
