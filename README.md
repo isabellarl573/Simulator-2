@@ -15,14 +15,14 @@ Team Members
 - Cade Lueker 
 
 ### Description
-- This project shows a simulation on the Dining Philosophers problem where a random drop strategy is implemented against a delayed recovery from a deadlock.
-- In the philosopher array (5 members), each index is an individual philosopher, the value is the state of the philosopher: -1 is idle/thinking; 0 is requesting to eat, has zero chopsticks; 1 is requesting to eat, has one chopstick; 2 is waiting to eat, has zero chopsticks (when not enough chopsticks are available); 3 is waiting to eat, has one chopstick (when not enough chopsticks are available); any number > 3 is eating/the time needed to eat
+- This goal of this project is to show via a simulation on how operating systems algorithmically deal with deadlocks and resource allocation. The simulation used is the **the Dining Philosophers** problem where a random drop strategy is implemented against a delayed recovery from a deadlock.
+- we represented the philosphers with an array of 5 elements (5 members or different philosophers), each index is an individual philosopher, the value is the state of the philosopher: -1 is idle/thinking; 0 is requesting to eat, has zero chopsticks; 1 is requesting to eat, has one chopstick; 2 is waiting to eat, has zero chopsticks (when not enough chopsticks are available); 3 is waiting to eat, has one chopstick (when not enough chopsticks are available); any number > 3 is eating/the time needed to eat
 - In the chopsticks array, each index is the corresponding chopstick in reference to the table and philosophers, for nth philosopher, their corresponding chopsticks are n and n+1, except the last one, whose corresponding chopsticks are the last index and the first. The values correspond to the state of the chopstick: -1 if the chopstick is available/on the table; any positive number is the index of the philosopher who has it
-- Once they are in state to requesting to eat, they will try to get the required chopsticks, only one per turn
-- What is a deadlock in this case
-  - Deadlocks occur when all the philosophers are waiting to eat and are unable to grab the chopsticks required to eat
-- Why do deadlocks happen
-- If in a deadlock state, "Currently in deadlock state, in some time all chopsticks will be dropped and philosophers will go back to thinking/Idle state"
+- when a philosopher is in a state where it needs to eat it will make a request, they will then try to get the required chopsticks for them to be able to eat (only one per turn).
+- What is a deadlock in this case and when do they occur?
+  - Deadlocks are when a philosopher requests a chopstick but one isn't avaliable and none of the philosophers can eat they occur when all the philosophers are waiting to eat and are unable to grab the chopstick(s) required to eat
+- Why do deadlocks happen?
+    - If in a deadlock state, "Currently in deadlock state, in some time all chopsticks will be dropped and philosophers will go back to thinking/Idle state"
 - 1000 units of time is waited before completely resetting the table (all philosophers drop their chopsticks and return to an idle state)
 - For the variation we chose #1: an extra chopstick is available on the table, between Philosopher n and Philosopher 1, so n and 1 do not come into conflict over 0.5, because there is an extra at n+.5.
 ### the probability of eating for time t might vary among philosophers id i.  You may fix that and know it in advance, so your probabilities of dropping a chopstick could be dependent on that t as a function of i.
